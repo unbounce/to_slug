@@ -5,8 +5,10 @@ class String # This reopns the string class
   def to_slug(options={})
     # This is the input as there are no arguments passed.
     string = self
-    
+
     delimiter = options[:delimiter].nil? ? "-" : options[:delimiter]
+
+    ignore_underscore = options[:ignore_underscore].nil?
 
     # Define which accents map to which ascii characters
     accents = {
@@ -69,7 +71,7 @@ class String # This reopns the string class
       'x'   => %w(ẋ ẍ),
       'y'   => %w(ỳ ý ŷ ỹ ȳ ẏ ÿ ỷ ẙ ƴ ỵ),
       'z'   => %w(ź ẑ ż ž ȥ ẓ ẕ ƶ),
-      
+
       # Not sure what to do with these
       ''    => %w(Ð Þ Ə Ɣ Ɩ Ƣ Ƨ Ʃ Ʊ Ʒ Ǯ Ƹ Ȝ ƿ Ȣ ð þ ə ɣ ɩ ƣ ƨ ʃ ƪ ʊ ʒ ǯ ƹ ƺ ȝ Ƿ ȣ Ǳ ǲ ǳ Ǆ ǅ ǆ Ǉ ǈ ǉ Ǌ ǋ ǌ ĸ ƍ ƛ ƾ ƻ Ƽ ƽ)
     }
@@ -86,7 +88,7 @@ class String # This reopns the string class
       regex = Regexp.new("[#{accent.join("|")}]")
       string = string.gsub(regex, replacement)
     end
-    
+
     # Strip any HTML decimal/hexadecimal entites
     string = string.gsub(
       /           # begin matching a string
@@ -100,7 +102,11 @@ class String # This reopns the string class
     )
 
     # Convert underscores and periods to dashs
-    string = string.gsub(/[_|.]/,"-")
+    if ignore_underscore
+      string = string.gsub(/[.]/,"-")
+    else
+      string = string.gsub(/[_|.]/,"-")
+    end
 
     # Remove any characters that aren't alphanumeric (or a dash)
     string = string.gsub(/[^a-zA-Z0-9 \-]/,"")
