@@ -8,7 +8,7 @@ class String # This reopns the string class
 
     delimiter = options[:delimiter].nil? ? "-" : options[:delimiter]
 
-    ignore_underscore = options[:ignore_underscore].nil?
+    ignore_underscore = !options[:ignore_underscore].nil?
 
     # Define which accents map to which ascii characters
     accents = {
@@ -109,7 +109,7 @@ class String # This reopns the string class
     end
 
     # Remove any characters that aren't alphanumeric (or a dash)
-    string = string.gsub(/[^a-zA-Z0-9 \-]/,"")
+    string = string.gsub(/[^a-zA-Z0-9 \-_]/,"")
 
     # Convert multiple spaces to a single space
     string = string.gsub(/[ ]+/," ")
@@ -122,6 +122,9 @@ class String # This reopns the string class
 
     # Do a greedy replace on multiple dashes
     string = string.gsub(/-+/,"-")
+
+    # Do a greedy replace on multiple underscores
+    string = string.gsub(/_+/,"_")
 
     # CASE. EVERYTHING. DOWN. (and return since it's the last line)
     string = string.downcase
