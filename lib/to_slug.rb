@@ -102,7 +102,7 @@ class String # This reopns the string class
     # Convert periods to dashs
     string = string.gsub(/[.]/,"-")
 
-    unless options[:preserve_whitespace]
+    unless options[:preserve_underscore]
       # Convert underscores to dashs
       string = string.gsub(/[_]/, "-")
     end
