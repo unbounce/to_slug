@@ -100,11 +100,11 @@ class String # This reopns the string class
     )
 
     # Convert periods to dashs
-    string = string.gsub(/./,"-")
+    string = string.gsub(/[.]/,"-")
 
     unless options[:preserve_whitespace]
       # Convert underscores to dashs
-      string = string.gsub(/_/, '-')
+      string = string.gsub(/[_]/, '-')
     end
 
     # Remove any characters that aren't alphanumeric (or a dash)
