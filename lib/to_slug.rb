@@ -104,7 +104,7 @@ class String # This reopns the string class
 
     unless options[:preserve_whitespace]
       # Convert underscores to dashs
-      string = string.gsub(/[_]/, '-')
+      string = string.gsub(/[_]/, "-")
     end
 
     # Remove any characters that aren't alphanumeric (or a dash)
