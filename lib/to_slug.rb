@@ -8,8 +8,6 @@ class String # This reopns the string class
 
     delimiter = options[:delimiter].nil? ? "-" : options[:delimiter]
 
-    ignore_underscore = !options[:ignore_underscore].nil?
-
     # Define which accents map to which ascii characters
     accents = {
       # Uppercase
@@ -101,11 +99,12 @@ class String # This reopns the string class
       ''          # replace matches with nothing (remove matches)
     )
 
-    # Convert underscores and periods to dashs
-    if ignore_underscore
-      string = string.gsub(/[.]/,"-")
-    else
-      string = string.gsub(/[_|.]/,"-")
+    # Convert periods to dashs
+    string = string.gsub(/./,"-")
+
+    unless options[:preserve_whitespace]
+      # Convert underscores to dashs
+      string = string.gsub(/_/, '-')
     end
 
     # Remove any characters that aren't alphanumeric (or a dash)
